@@ -1,0 +1,23 @@
+
+server:
+  port: 8090 #项目端口
+
+spring:
+  application:
+    name: movie-user
+
+
+logging:
+  level.root: info
+  level.com.stylefeng: debug
+  path: logs/
+#  file: guns-user.log
+
+dubbo:
+  scan:
+    base-packages: com.stylefent.guns.user.service
+  protocol:
+    name: dubbo
+    port: 21882
+  registry:
+    address: zookeeper://localhost:2181
