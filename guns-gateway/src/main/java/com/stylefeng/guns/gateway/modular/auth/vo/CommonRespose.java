@@ -63,6 +63,20 @@ public class CommonRespose<T> {
         return commonRespose;
     }
 
+    /**
+     * 根据参数构建
+     *
+     * @param errMsg
+     * @return
+     */
+    public static <T> CommonRespose<T> build(int status, T data, String errMsg) {
+        CommonRespose<T> commonRespose = new CommonRespose<>();
+        commonRespose.setStatus(status);
+        commonRespose.setMsg(errMsg);
+        commonRespose.setData(data);
+        return commonRespose;
+    }
+
 
     public int getStatus() {
         return status;

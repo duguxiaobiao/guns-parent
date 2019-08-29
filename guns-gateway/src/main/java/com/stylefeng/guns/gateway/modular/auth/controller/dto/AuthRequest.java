@@ -1,6 +1,6 @@
 package com.stylefeng.guns.gateway.modular.auth.controller.dto;
 
-import com.stylefeng.guns.gateway.modular.auth.validator.dto.Credence;
+import java.io.Serializable;
 
 /**
  * 认证的请求dto
@@ -8,7 +8,7 @@ import com.stylefeng.guns.gateway.modular.auth.validator.dto.Credence;
  * @author fengshuonan
  * @Date 2017/8/24 14:00
  */
-public class AuthRequest implements Credence {
+public class AuthRequest implements Serializable {
 
     private String userName;
     private String password;
@@ -29,12 +29,10 @@ public class AuthRequest implements Credence {
         return userName;
     }
 
-    @Override
     public String getCredenceName() {
         return this.userName;
     }
 
-    @Override
     public String getCredenceCode() {
         return this.password;
     }

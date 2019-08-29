@@ -4,6 +4,7 @@ import com.stylefeng.guns.core.base.tips.ErrorTip;
 import com.stylefeng.guns.core.util.RenderUtil;
 import com.stylefeng.guns.gateway.common.CurrentUser;
 import com.stylefeng.guns.gateway.common.exception.BizExceptionEnum;
+import com.stylefeng.guns.gateway.common.utils.UrlMatchUtil;
 import com.stylefeng.guns.gateway.config.properties.JwtProperties;
 import com.stylefeng.guns.gateway.modular.auth.util.JwtTokenUtil;
 import io.jsonwebtoken.JwtException;
@@ -126,8 +127,12 @@ public class AuthFilter extends OncePerRequestFilter {
         //判断当前请求是否需要跳过验证
         if (CollectionUtils.isNotEmpty(ignoreUrlList)) {
             for (int i = 0; i < ignoreUrlList.size(); i++) {
-                if (requestServletPath.equals(ignoreUrlList.get(i))) {
-                    //chain.doFilter(request,response);
+                //精准匹配
+                /*if (requestServletPath.equals(ignoreUrlList.get(i))) {
+                    return true;
+                }*/
+                //支持模糊匹配
+                if(UrlMatchUtil.match(ignoreUrlList.get(i),requestServletPath)){
                     return true;
                 }
             }

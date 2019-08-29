@@ -59,10 +59,13 @@ public class UserServiceImpl implements UserAPI {
 
         MoocUserT moocUserT = new MoocUserT();
         BeanUtils.copyProperties(userRegistryModel, moocUserT);
+        moocUserT.setUserName(userRegistryModel.getUserName());
         moocUserT.setUserPhone(userRegistryModel.getPhone());
 
         //设置密码加密
-        MD5Util.encrypt(moocUserT.getUserPwd());
+        String encryptPwd = MD5Util.encrypt(userRegistryModel.getPassword());
+        moocUserT.setUserPwd(encryptPwd);
+
 
         //添加到数据库
         Integer insert = this.moocUserTMapper.insert(moocUserT);
@@ -127,12 +130,18 @@ public class UserServiceImpl implements UserAPI {
         moocUserT.setHeadUrl(userInfoModel.getHeadAddress());
         moocUserT.setBiography(userInfoModel.getBiography());
         moocUserT.setLifeState(Integer.valueOf(userInfoModel.getLifeState()));
-        moocUserT.setBeginTime(time2Date(userInfoModel.getCreateTime()));
-        moocUserT.setUpdateTime(time2Date(userInfoModel.getUpdateTime()));
+
+        //时间由数据库来处理
+        //moocUserT.setBeginTime(time2Date(userInfoModel.getCreateTime()));
+        //moocUserT.setUpdateTime(time2Date(userInfoModel.getUpdateTime()));
 
         //2.更新实体
         Integer result = this.moocUserTMapper.updateById(moocUserT);
         if (result > 0) {
+
+            //重新查询一次用户信息
+            moocUserT = this.moocUserTMapper.selectById(moocUserT.getUuid());
+
             return this.do2UserInfoModel(moocUserT);
         } else {
             return userInfoModel;

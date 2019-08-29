@@ -8,7 +8,7 @@ jwt:
   expiration: 604800      #7天 单位:秒
   auth-path: auth         #认证请求的路径
   md5-key: randomKey      #md5加密混淆key
-  ignore-urls: /user/     #忽略的url列表,以逗号分割
+  ignore-urls: /user/check,/user/registry     #忽略的url列表,以逗号分割
 
 server:
   port: 80 #项目端口
@@ -50,3 +50,5 @@ dubbo:
 #    port: 21881
   registry:
     address: zookeeper://localhost:2181
+  consumer:
+    check: false

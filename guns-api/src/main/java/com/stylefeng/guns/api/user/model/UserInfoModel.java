@@ -33,7 +33,7 @@ public class UserInfoModel extends BaseModel {
     /**
      * 性别
      */
-    private int sex;
+    private Integer sex;
     /**
      * 生日
      */
@@ -96,11 +96,11 @@ public class UserInfoModel extends BaseModel {
         this.phone = phone;
     }
 
-    public int getSex() {
+    public Integer getSex() {
         return sex;
     }
 
-    public void setSex(int sex) {
+    public void setSex(Integer sex) {
         this.sex = sex;
     }
 

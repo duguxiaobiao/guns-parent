@@ -5,14 +5,11 @@ import com.stylefeng.guns.gateway.common.exception.BizExceptionEnum;
 import com.stylefeng.guns.gateway.modular.auth.controller.dto.AuthRequest;
 import com.stylefeng.guns.gateway.modular.auth.controller.dto.AuthResponse;
 import com.stylefeng.guns.gateway.modular.auth.util.JwtTokenUtil;
-import com.stylefeng.guns.gateway.modular.auth.validator.IReqValidator;
 import com.stylefeng.guns.gateway.modular.auth.vo.CommonRespose;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * 请求验证的
@@ -26,23 +23,17 @@ public class AuthController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Resource(name = "simpleValidator")
-    private IReqValidator reqValidator;
-
     @Reference
     private UserAPI userAPI;
 
     @RequestMapping(value = "${jwt.auth-path}")
     public CommonRespose<?> createAuthenticationToken(AuthRequest authRequest) {
 
-        //boolean validate = reqValidator.validate(authRequest);
-
-        //用户校验
-        boolean validate = this.userAPI.login(authRequest.getUserName(), authRequest.getPassword());
-
-        if (validate) {
+        //用户校验 , 获取对应的用户信息
+        int uuid = this.userAPI.login(authRequest.getUserName(), authRequest.getPassword());
+        if (uuid > 0) {
             final String randomKey = jwtTokenUtil.getRandomKey();
-            final String token = jwtTokenUtil.generateToken(authRequest.getUserName(), randomKey);
+            final String token = jwtTokenUtil.generateToken("" + uuid, randomKey);
 
             return CommonRespose.success(new AuthResponse(token, randomKey));
             //return ResponseEntity.ok(new AuthResponse(token, randomKey));
