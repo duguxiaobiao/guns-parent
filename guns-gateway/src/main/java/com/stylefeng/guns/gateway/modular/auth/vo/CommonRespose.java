@@ -21,7 +21,7 @@ public class CommonRespose<T> {
      */
     private T data;
 
-    private CommonRespose() {
+    public CommonRespose() {
     }
 
     /**
