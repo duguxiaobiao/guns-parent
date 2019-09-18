@@ -1,4 +1,6 @@
-package com.stylefeng.guns.gateway.modular.auth.vo;
+package com.stylefeng.guns.gateway.modular.movie.response;
+
+import com.stylefeng.guns.gateway.modular.auth.vo.CommonRespose;
 
 /**
  * @author ztkj-hzb

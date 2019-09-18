@@ -39,7 +39,7 @@ public class BaseControllerExceptionHandler {
     @ResponseBody
     public ErrorTip notFount(RuntimeException e) {
         log.error("运行时异常:", e);
-        return new ErrorTip(GunsExceptionEnum.SERVER_ERROR.getCode(), GunsExceptionEnum.SERVER_ERROR.getMessage());
+        return new ErrorTip(999,"系统出现异常，请联系管理员");
     }
 
 }
