@@ -3,6 +3,7 @@ package com.stylefeng.guns.gateway.modular.cinema;
 import com.stylefeng.guns.api.cinema.CinemaServiceAPI;
 import com.stylefeng.guns.api.cinema.model.dto.CinemaQueryListDto;
 import com.stylefeng.guns.api.cinema.model.vo.*;
+import com.stylefeng.guns.api.order.OrderServiceAPI;
 import com.stylefeng.guns.core.util.ExceptionUtil;
 import com.stylefeng.guns.gateway.modular.auth.vo.CommonRespose;
 import com.stylefeng.guns.gateway.modular.cinema.qo.CinemaListQo;
@@ -14,8 +15,6 @@ import com.stylefeng.guns.gateway.modular.cinema.vo.CinemaFieldListVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +40,10 @@ public class CinemaController {
      */
     @Reference(cache = "lru")
     private CinemaServiceAPI cinemaServiceAPI;
+
+    @Reference
+    private OrderServiceAPI orderServiceAPI;
+
 
     /**
      * 查询影院列表，根据条件查询所有影院
@@ -166,6 +169,7 @@ public class CinemaController {
 
             //3.根据场次信息获取对应的影厅信息
             HallInfoVo hallInfo = this.cinemaServiceAPI.getHallInfo(fieldId);
+            hallInfo.setSoldSeats(this.orderServiceAPI.getSoldSeatsByFieldId(fieldId));
 
             //4.组装响应
             CinemaFieldInfoVo cinemaFieldInfoVo = new CinemaFieldInfoVo();

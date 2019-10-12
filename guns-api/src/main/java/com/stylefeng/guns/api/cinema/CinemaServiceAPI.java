@@ -72,4 +72,12 @@ public interface CinemaServiceAPI {
      * @return
      */
     HallInfoVo getHallInfo(Integer fieldId);
+
+    /**
+     * 获取指定放映场次id对应的放映场次信息
+     *
+     * @param fieldId
+     * @return
+     */
+    OrderQueryVo getFieldVoByFieldId(Integer fieldId);
 }

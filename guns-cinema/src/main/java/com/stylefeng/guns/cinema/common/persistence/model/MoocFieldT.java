@@ -58,7 +58,7 @@ public class MoocFieldT extends Model<MoocFieldT> {
     /**
      * 票价
      */
-    private Integer price;
+    private Double price;
 
 
     public Integer getUuid() {
@@ -117,11 +117,11 @@ public class MoocFieldT extends Model<MoocFieldT> {
         this.hallName = hallName;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

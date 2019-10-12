@@ -18,6 +18,7 @@
         <module>guns-user</module>
         <module>guns-movie</module>
         <module>guns-cinema</module>
+        <module>guns-order</module>
     </modules>
 
     <parent>
@@ -52,6 +53,7 @@
         <curator.version>4.0.0</curator.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <lombok.version>1.18.8</lombok.version>
+        <common.io>2.6</common.io>
     </properties>
 
     <dependencyManagement>
@@ -217,6 +219,12 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${common.io}</version>
             </dependency>
 
         </dependencies>

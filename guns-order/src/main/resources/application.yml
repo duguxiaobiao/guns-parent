@@ -1,9 +1,9 @@
 server:
-  port: 8092 #项目端口
+  port: 8093 #项目端口
 
 spring:
   application:
-    name: movie-cinema
+    name: movie-order
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/guns_rest?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=UTC
     username: root
@@ -20,13 +20,12 @@ logging:
 
 dubbo:
   scan:
-    base-packages: com.stylefent.guns.cinema.service
+    base-packages: com.stylefent.guns.order.service
   protocol:
     name: dubbo
-    port: 21884
+    port: 21885
   registry:
     address: zookeeper://localhost:2181
-    check: false
   #设置服务提供，都是轮询的方式
   provider:
     loadbalance: roundrobin
@@ -35,8 +34,8 @@ dubbo:
 
 
 mybatis-plus:
-  mapper-locations: classpath*:com/stylefeng/guns/cinema/**/mapping/*.xml
-  typeAliasesPackage: com.stylefeng.guns.cinema.common.puersistence.model
+  mapper-locations: classpath*:com/stylefeng/guns/order/**/mapping/*.xml
+  typeAliasesPackage: com.stylefeng.guns.order.common.puersistence.model
   global-config:
     id-type: 0  #0:数据库ID自增   1:用户输入id  2:全局唯一id(IdWorker)  3:全局唯一ID(uuid)
     db-column-underline: false
@@ -48,3 +47,11 @@ mybatis-plus:
     multipleResultSetsEnabled: true #开启的话，延时加载一个属性时会加载该对象全部属性，否则按需加载属性
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #打印sql语句,调试用
 
+
+#####ftp配置###########
+ftp:
+  hostName: 192.168.2.136
+  #hostName: 127.0.0.1
+  port: 21
+  user-name: ftp
+  password: ftp

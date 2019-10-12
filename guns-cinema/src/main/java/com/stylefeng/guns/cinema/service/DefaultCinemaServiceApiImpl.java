@@ -6,10 +6,7 @@ import com.stylefeng.guns.api.cinema.CinemaServiceAPI;
 import com.stylefeng.guns.api.cinema.model.dto.CinemaQueryListDto;
 import com.stylefeng.guns.api.cinema.model.vo.*;
 import com.stylefeng.guns.cinema.common.persistence.dao.*;
-import com.stylefeng.guns.cinema.common.persistence.model.MoocAreaDictT;
-import com.stylefeng.guns.cinema.common.persistence.model.MoocBrandDictT;
-import com.stylefeng.guns.cinema.common.persistence.model.MoocCinemaT;
-import com.stylefeng.guns.cinema.common.persistence.model.MoocHallDictT;
+import com.stylefeng.guns.cinema.common.persistence.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,6 +153,34 @@ public class DefaultCinemaServiceApiImpl implements CinemaServiceAPI {
     public HallInfoVo getHallInfo(Integer fieldId) {
         return this.moocFieldTMapper.getHallInfoByFieldId(fieldId);
     }
+
+    /**
+     * 获取指定放映场次id对应的放映场次信息
+     *
+     * @param fieldId
+     * @return
+     */
+    @Override
+    public OrderQueryVo getFieldVoByFieldId(Integer fieldId) {
+        MoocFieldT moocFieldT = this.moocFieldTMapper.selectById(fieldId);
+        return do2FieldVo(moocFieldT);
+    }
+
+    /**
+     * 放映场次实体转换
+     *
+     * @param moocFieldT
+     * @return
+     */
+    private OrderQueryVo do2FieldVo(MoocFieldT moocFieldT) {
+        OrderQueryVo orderQueryVo = new OrderQueryVo();
+        orderQueryVo.setFieldId(moocFieldT.getUuid());
+        orderQueryVo.setCinemaId(String.valueOf(moocFieldT.getCinemaId()));
+        orderQueryVo.setFilmId(String.valueOf(moocFieldT.getFilmId()));
+        orderQueryVo.setPrice(String.valueOf(moocFieldT.getPrice()));
+        return orderQueryVo;
+    }
+
 
     /**
      * 将影院明细数据库实体转换成对应的响应实体
