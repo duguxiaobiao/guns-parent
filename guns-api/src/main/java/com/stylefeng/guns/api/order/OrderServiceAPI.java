@@ -58,4 +58,28 @@ public interface OrderServiceAPI {
      */
     String getSoldSeatsByFieldId(Integer fieldId);
 
+    /**
+     * 查询指定订单id对应的订单信息
+     *
+     * @param orderId
+     * @return
+     */
+    OrderVo getOrderInfoById(String orderId);
+
+    /**
+     * 支付成功
+     *
+     * @param orderId
+     * @return
+     */
+    boolean paySuccess(String orderId);
+
+    /**
+     * 支付失败
+     *
+     * @param orderId
+     * @return
+     */
+    boolean payFail(String orderId);
+
 }

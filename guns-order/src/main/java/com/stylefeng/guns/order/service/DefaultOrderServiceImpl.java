@@ -202,4 +202,45 @@ public class DefaultOrderServiceImpl implements OrderServiceAPI {
         }
         return this.moocOrderTMapper.getSeatsByFieldId(String.valueOf(fieldId));
     }
+
+    /**
+     * 查询指定订单id对应的订单信息
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public OrderVo getOrderInfoById(String orderId) {
+        return this.moocOrderTMapper.getOrderVoByUuid(orderId);
+    }
+
+    /**
+     * 支付成功
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public boolean paySuccess(String orderId) {
+        MoocOrderT moocOrderT = new MoocOrderT();
+        moocOrderT.setUuid(orderId);
+        moocOrderT.setOrderStatus(1);
+        Integer result = this.moocOrderTMapper.updateById(moocOrderT);
+        return result > 0;
+    }
+
+    /**
+     * 支付失败
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public boolean payFail(String orderId) {
+        MoocOrderT moocOrderT = new MoocOrderT();
+        moocOrderT.setUuid(orderId);
+        moocOrderT.setOrderStatus(2);
+        Integer result = this.moocOrderTMapper.updateById(moocOrderT);
+        return result > 0;
+    }
 }

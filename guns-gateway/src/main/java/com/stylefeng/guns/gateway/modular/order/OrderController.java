@@ -1,11 +1,15 @@
 package com.stylefeng.guns.gateway.modular.order;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.stylefeng.guns.api.alipay.AlipayServiceAPI;
+import com.stylefeng.guns.api.alipay.model.PayQrCodeVo;
+import com.stylefeng.guns.api.alipay.model.PayResultVo;
 import com.stylefeng.guns.api.order.OrderServiceAPI;
 import com.stylefeng.guns.api.order.model.OrderVo;
 import com.stylefeng.guns.gateway.common.CurrentUser;
 import com.stylefeng.guns.gateway.modular.auth.util.JwtTokenUtil;
 import com.stylefeng.guns.gateway.modular.auth.vo.CommonRespose;
+import com.stylefeng.guns.gateway.modular.movie.response.MovieIndexResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.dubbo.config.annotation.Reference;
@@ -29,6 +33,9 @@ public class OrderController {
 
     @Reference
     private OrderServiceAPI orderServiceAPI;
+
+    @Reference
+    private AlipayServiceAPI alipayServiceAPI;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -94,5 +101,42 @@ public class OrderController {
             log.error("查询用户：{}订单列表异常，异常原因：{}", ExceptionUtils.getStackTrace(e), userId);
             return CommonRespose.systemFail("系统出现异常， 请联系管理员");
         }
+    }
+
+
+    /**
+     * 获取支付二维码
+     *
+     * @param orderId
+     * @return
+     */
+    public CommonRespose getPayInfo(@RequestParam String orderId) {
+
+        try {
+            PayQrCodeVo payInfo = this.alipayServiceAPI.getPayInfo(orderId);
+            return MovieIndexResponse.success("http://img.meetingshop.cn/", payInfo);
+        } catch (Exception e) {
+            log.error("获取支付二维码异常， 异常原因：{}", ExceptionUtils.getStackTrace(e));
+            return CommonRespose.businessFail("订单支付失败，请稍后重试");
+        }
+    }
+
+    /**
+     * 获取支付结果
+     *
+     * @param orderId
+     * @param tryNums
+     * @return
+     */
+    public CommonRespose getPayResult(@RequestParam String orderId,
+                                      @RequestParam(name = "tryNums", required = false, defaultValue = "1") int tryNums) {
+
+        PayResultVo payResult = this.alipayServiceAPI.getPayResult(orderId);
+
+        if (tryNums >= 4) {
+            return CommonRespose.businessFail("订单支付失败，请稍后重试");
+        }
+
+        return CommonRespose.success(payResult);
     }
 }
