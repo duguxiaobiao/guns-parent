@@ -54,7 +54,7 @@
         <curator.version>4.0.0</curator.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <lombok.version>1.18.8</lombok.version>
-        <common.io>2.6</common.io>
+        <common.io>2.7</common.io>
     </properties>
 
     <dependencyManagement>
